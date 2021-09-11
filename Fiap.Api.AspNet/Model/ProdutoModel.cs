@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fiap.Api.AspNet.Models
 {
-    [Table("FiapProduto")]
+    [Table("Produtos")]
     public class ProdutoModel
     {
 

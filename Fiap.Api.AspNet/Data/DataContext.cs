@@ -17,13 +17,10 @@ namespace Fiap.Api.AspNet.Data
         {
         }
 
-
-        public DbSet<CategoriaModel> Categoria {get; set;}
-        public DbSet<MarcaModel> Marca { get; set; }
-        public DbSet<ProdutoModel> Produto { get; set; }
-        public DbSet<UsuarioModel> Usuario { get; set; }
-
-
+        public DbSet<CategoriaModel> Categorias {get; set;}
+        public DbSet<MarcaModel> Marcas { get; set; }
+        public DbSet<ProdutoModel> Produtos { get; set; }
+        public DbSet<UsuarioModel> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -48,7 +45,6 @@ namespace Fiap.Api.AspNet.Data
                 new MarcaModel(4, "Xiaomi")
             );
 
-
             modelBuilder.Entity<CategoriaModel>().HasData(
                 new CategoriaModel(1, "Smartphone"),
                 new CategoriaModel(2, "Televisor"),
@@ -56,23 +52,17 @@ namespace Fiap.Api.AspNet.Data
                 new CategoriaModel(4, "Tablet")
             );
 
-
             modelBuilder.Entity<ProdutoModel>().HasData(
                 new ProdutoModel(1,"iPhone 12","SKUIPH12","Apple iPhone 12",5000, "", DateTime.Now, 1 , 1)
             );
 
-
             modelBuilder.Entity<UsuarioModel>().HasData(
-                new UsuarioModel("Admin Senior", "123456", "Senior"),
-                new UsuarioModel("Admin Pleno", "123456", "Pleno"),
-                new UsuarioModel("Admin Junior", "123456", "Junior")
+                new UsuarioModel(1, "Admin Senior", "123456", "Senior"),
+                new UsuarioModel(2, "Admin Pleno", "123456", "Pleno"),
+                new UsuarioModel(3, "Admin Junior", "123456", "Junior")
             );
-
-
 
             base.OnModelCreating(modelBuilder);
         }
-
-
     }
 }
