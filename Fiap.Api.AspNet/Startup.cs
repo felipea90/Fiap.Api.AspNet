@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IO.Compression;
+using System.Linq;
 using System.Text;
 
 namespace Fiap.Api.AspNet
@@ -65,6 +68,14 @@ namespace Fiap.Api.AspNet
                 option => option.UseSqlServer(connectionString)
                                 .EnableSensitiveDataLogging()
                                 .LogTo(Console.Write));
+
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"application/json" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +102,7 @@ namespace Fiap.Api.AspNet
 
             app.UseAuthorization();
 
+            app.UseResponseCompression();
 
             app.UseEndpoints(endpoints =>
             {
