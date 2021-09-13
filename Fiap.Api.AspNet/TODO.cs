@@ -1,13 +1,11 @@
 ﻿/*
  * TODO:
  
- * Criar Repositóios (Interface e Concreto):
- * - Categoria
+ * Criar Repositórios (Interface e Concreto):
  * - Produto
  * - Usuario
  
  * Criar Controller (CRUD):
- * - Categoria
  * - Produto
  * - Usuario
 

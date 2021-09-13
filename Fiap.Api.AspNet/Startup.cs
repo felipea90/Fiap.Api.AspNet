@@ -58,6 +58,7 @@ namespace Fiap.Api.AspNet
             });
 
             services.AddScoped<IMarcaRepository, MarcaRepository>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
             var connectionString = Configuration.GetConnectionString("databaseUrl");
             services.AddDbContext<DataContext>(
