@@ -19,7 +19,7 @@ namespace Fiap.Api.AspNet.Data
 
         public DbSet<CategoriaModel> Categorias {get; set;}
         public DbSet<MarcaModel> Marcas { get; set; }
-        public DbSet<ProdutoModel> Produtos { get; set; }
+        public DbSet<ProdutoViewModel> Produtos { get; set; }
         public DbSet<UsuarioModel> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -52,8 +52,8 @@ namespace Fiap.Api.AspNet.Data
                 new CategoriaModel(4, "Tablet")
             );
 
-            modelBuilder.Entity<ProdutoModel>().HasData(
-                new ProdutoModel(1,"iPhone 12","SKUIPH12","Apple iPhone 12",5000, "", DateTime.Now, 1 , 1)
+            modelBuilder.Entity<ProdutoViewModel>().HasData(
+                new ProdutoViewModel(1,"iPhone 12","SKUIPH12","Apple iPhone 12",5000, "", DateTime.Now, 1 , 1)
             );
 
             modelBuilder.Entity<UsuarioModel>().HasData(

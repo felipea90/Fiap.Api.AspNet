@@ -20,24 +20,49 @@ namespace Fiap.Api.AspNet.Repository
             _context = context;
         }
 
-        public IList<ProdutoModel> FindAll()
+        public IList<ProdutoViewModel> FindAll()
         {
-            return _context.Produtos.AsNoTracking().ToList();
+            return _context.Produtos.Include(c => c.Categoria)
+                                    .Include(m => m.Marca)
+                                    .AsNoTracking()
+                                    .ToList();
         }
 
-        public ProdutoModel FindById(int id)
+        public ProdutoViewModel FindById(int id)
         {
-            return _context.Produtos.FirstOrDefault(x => x.ProdutoId == id);
+            return _context.Produtos.Include(c => c.Categoria)
+                                    .Include(m => m.Marca)
+                                    .FirstOrDefault(x => x.ProdutoId == id);
+
+            //var produtos = from produto in _context.Produtos
+            //               join marcas in _context.Marcas on produto.MarcaId equals marcas.MarcaId
+            //               join categorias in _context.Categorias on produto.CategoriaId equals categorias.CategoriaId
+            //               where produto.ProdutoId == id
+            //               select new ProdutoViewModel
+            //               {
+            //                   Nome = produto.Nome,
+            //                   Sku = produto.Sku,
+            //                   Descricao = produto.Descricao,
+            //                   Preco = produto.Preco,
+            //                   Caracteristicas = produto.Caracteristicas,
+            //                   DataLancamento = produto.DataLancamento,
+            //                   CategoriaId = produto.CategoriaId,
+            //                   Categoria = produto.Categoria,
+            //                   MarcaId = produto.MarcaId,
+            //                   Marca = produto.Marca
+            //               };
+
+            //return produtos.SingleOrDefault();
         }
 
-        public int Insert(ProdutoModel produtoModel)
+        public int Insert(ProdutoViewModel produtoModel)
         {
             _context.Produtos.Add(produtoModel);
             _context.SaveChanges();
             return produtoModel.ProdutoId;
         }
 
-        public void Update(ProdutoModel produtoModel)
+        public void Update(ProdutoViewModel produtoModel)
         {
             _context.Produtos.Update(produtoModel);
             _context.SaveChanges();
@@ -45,7 +70,7 @@ namespace Fiap.Api.AspNet.Repository
 
         public void Delete(int id)
         {
-            var produto = new ProdutoModel()
+            var produto = new ProdutoViewModel()
             {
                 ProdutoId = id
             };

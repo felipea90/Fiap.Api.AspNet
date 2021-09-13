@@ -15,7 +15,7 @@ namespace Fiap.Api.AspNet.Controllers
     public class ProdutoController : ControllerBase
     {
         [HttpGet]
-        public ActionResult<IList<ProdutoModel>> GetAll(
+        public ActionResult<IList<ProdutoViewModel>> GetAll(
             [FromServices] IProdutoRepository produtoRepository)
         {
             var produto = produtoRepository.FindAll();
@@ -29,7 +29,7 @@ namespace Fiap.Api.AspNet.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<ProdutoModel> GetById(
+        public ActionResult<ProdutoViewModel> GetById(
             [FromRoute] int id,
             [FromServices] IProdutoRepository produtoRepository)
         {
@@ -44,9 +44,9 @@ namespace Fiap.Api.AspNet.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ProdutoModel> Post(
+        public ActionResult<ProdutoViewModel> Post(
             [FromServices] IProdutoRepository produtoRepository,
-            [FromBody] ProdutoModel produtoModel)
+            [FromBody] ProdutoViewModel produtoModel)
         {
             if (!ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace Fiap.Api.AspNet.Controllers
         public ActionResult<CategoriaModel> Put(
             [FromRoute] int id,
             [FromServices] IProdutoRepository produtoRepository,
-            [FromBody] ProdutoModel produtoModel)
+            [FromBody] ProdutoViewModel produtoModel)
         {
             if (!ModelState.IsValid)
             {

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Fiap.Api.AspNet.Models
 {
     [Table("Produtos")]
-    public class ProdutoModel
+    public class ProdutoViewModel
     {
 
         [Key]
@@ -46,17 +46,17 @@ namespace Fiap.Api.AspNet.Models
        
         
 
-        public ProdutoModel()
+        public ProdutoViewModel()
         {
         }
 
-        public ProdutoModel(int ProdutoId, String Nome)
+        public ProdutoViewModel(int ProdutoId, String Nome)
         {
             this.ProdutoId = ProdutoId;
             this.Nome = Nome;
         }
 
-        public ProdutoModel(int produtoId, string nome, string sku, string descricao, decimal preco, string caracteristicas, DateTime dataLancamento, int categoriaId, int marcaId) : this(produtoId, nome)
+        public ProdutoViewModel(int produtoId, string nome, string sku, string descricao, decimal preco, string caracteristicas, DateTime dataLancamento, int categoriaId, int marcaId) : this(produtoId, nome)
         {
             Sku = sku;
             Descricao = descricao;

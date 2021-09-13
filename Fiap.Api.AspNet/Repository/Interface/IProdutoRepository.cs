@@ -9,10 +9,10 @@ namespace Fiap.Api.AspNet.Repository.Interface
 {
     public interface IProdutoRepository
     {
-        public IList<ProdutoModel> FindAll();
-        public ProdutoModel FindById(int id);
-        public int Insert(ProdutoModel produtoModel);
+        public IList<ProdutoViewModel> FindAll();
+        public ProdutoViewModel FindById(int id);
+        public int Insert(ProdutoViewModel produtoModel);
         public void Delete(int id);
-        public void Update(ProdutoModel produtoModel);
+        public void Update(ProdutoViewModel produtoModel);
     }
 }
