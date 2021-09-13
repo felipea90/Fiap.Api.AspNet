@@ -34,6 +34,8 @@ namespace Fiap.Api.AspNet
         {
             services.AddControllers();
 
+            services.AddSwaggerGen();
+
             var key = Encoding.ASCII.GetBytes(Settings.Secret); 
             services.AddAuthentication(x => 
             { 
@@ -76,6 +78,14 @@ namespace Fiap.Api.AspNet
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fiap Api Asp.Net");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseHttpsRedirection();
 
