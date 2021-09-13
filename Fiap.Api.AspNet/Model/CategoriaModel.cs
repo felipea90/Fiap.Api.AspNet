@@ -26,6 +26,6 @@ namespace Fiap.Api.AspNet.Models
             NomeCategoria = nomeCategoria;
         }
 
-        
+
     }
 }

@@ -85,7 +85,7 @@ namespace Fiap.Api.AspNet.Controllers
             try
             {
                 marcaRepository.Update(marcaModel);
-                
+
                 return Ok(marcaModel);
             }
             catch (Exception error)

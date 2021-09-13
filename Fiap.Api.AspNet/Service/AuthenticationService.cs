@@ -1,12 +1,9 @@
 ﻿using Fiap.Api.AspNet.Model;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Fiap.Api.AspNet.Service
 {
@@ -14,25 +11,25 @@ namespace Fiap.Api.AspNet.Service
     {
         public static string GetToken(UsuarioModel usuario)
         {
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler(); 
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
-            byte[] segredo = Encoding.ASCII.GetBytes(Settings.Secret); 
+            byte[] segredo = Encoding.ASCII.GetBytes(Settings.Secret);
 
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor 
-            { 
-                Subject = new ClaimsIdentity(new Claim[] 
-                { 
-                    new Claim(ClaimTypes.Name, usuario.NomeUsuario.ToString()), 
-                    new Claim(ClaimTypes.Role, usuario.Regra.ToString()) 
-                }), 
-                Expires = DateTime.UtcNow.AddHours(1), 
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, usuario.NomeUsuario.ToString()),
+                    new Claim(ClaimTypes.Role, usuario.Regra.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(segredo), 
-                    SecurityAlgorithms.HmacSha256Signature) 
-            }; 
+                    new SymmetricSecurityKey(segredo),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
 
-            SecurityToken token = handler.CreateToken(tokenDescriptor); 
-            
+            SecurityToken token = handler.CreateToken(tokenDescriptor);
+
             return handler.WriteToken(token);
         }
     }

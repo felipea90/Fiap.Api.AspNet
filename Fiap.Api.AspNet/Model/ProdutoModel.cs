@@ -43,8 +43,8 @@ namespace Fiap.Api.AspNet.Models
         [ForeignKey("MarcaId")]
         public MarcaModel Marca { get; set; }
 
-       
-        
+
+
 
         public ProdutoViewModel()
         {
