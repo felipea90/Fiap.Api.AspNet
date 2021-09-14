@@ -27,6 +27,22 @@ namespace Fiap.Api.AspNet.Controllers
             return Ok(marca);
         }
 
+        [HttpGet("pagination")]
+        public ActionResult<IList<MarcaModel>> GetAllPagination(
+            [FromQuery] int pagina,
+            [FromQuery] int tamanho,
+            [FromServices] IMarcaRepository marcaRepository)
+        {
+            var marca = marcaRepository.FindAll();
+
+            if (marca.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(marca);
+        }
+
         [HttpGet("{id:int}")]
         [ResponseCache(Duration = 0,Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult<MarcaModel> GetById(

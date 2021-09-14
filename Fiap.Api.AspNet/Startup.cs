@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,18 @@ namespace Fiap.Api.AspNet
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddApiVersioning(options => {
+                options.UseApiBehavior = false;
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(3, 0);
+                options.ApiVersionReader =
+                    ApiVersionReader.Combine(
+                        new HeaderApiVersionReader("x-api-version"),
+                        new QueryStringApiVersionReader(),
+                        new UrlSegmentApiVersionReader());
+            });
 
             services.AddSwaggerGen();
 
