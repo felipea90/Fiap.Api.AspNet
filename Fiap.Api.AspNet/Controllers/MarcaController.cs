@@ -9,6 +9,7 @@ namespace Fiap.Api.AspNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ResponseCache(VaryByHeader = "User-Agent", Location = ResponseCacheLocation.Any, Duration = 10)]
     public class MarcaController : ControllerBase
     {
 
@@ -27,6 +28,7 @@ namespace Fiap.Api.AspNet.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ResponseCache(Duration = 0,Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult<MarcaModel> GetById(
             [FromRoute] int id,
             [FromServices] IMarcaRepository marcaRepository)
