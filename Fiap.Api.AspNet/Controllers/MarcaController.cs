@@ -7,13 +7,16 @@ using System.Collections.Generic;
 
 namespace Fiap.Api.AspNet.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    [ApiVersion("3.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ResponseCache(VaryByHeader = "User-Agent", Location = ResponseCacheLocation.Any, Duration = 10)]
     public class MarcaController : ControllerBase
     {
-
         [HttpGet]
+        [ApiVersion("1.0", Deprecated = true)]
         public ActionResult<IList<MarcaModel>> GetAll(
             [FromServices] IMarcaRepository marcaRepository)
         {
@@ -27,11 +30,13 @@ namespace Fiap.Api.AspNet.Controllers
             return Ok(marca);
         }
 
-        [HttpGet("pagination")]
+        [HttpGet]
+        [ApiVersion("2.0")]
+        [ApiVersion("3.0")]
         public ActionResult<IList<MarcaModel>> GetAllPagination(
-            [FromQuery] int pagina,
-            [FromQuery] int tamanho,
-            [FromServices] IMarcaRepository marcaRepository)
+            [FromQuery] int pagina = 0,
+            [FromQuery] int tamanho = 3,
+            [FromServices] IMarcaRepository marcaRepository = null)
         {
             var marca = marcaRepository.FindAll();
 

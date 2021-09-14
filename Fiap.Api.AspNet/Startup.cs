@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Ninject.Activation;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using Swashbuckle.Swagger;
 using System;
 using System.IO.Compression;
 using System.Linq;
@@ -43,6 +47,12 @@ namespace Fiap.Api.AspNet
                         new HeaderApiVersionReader("x-api-version"),
                         new QueryStringApiVersionReader(),
                         new UrlSegmentApiVersionReader());
+            });
+
+            services.AddVersionedApiExplorer(setup =>
+            {
+                setup.GroupNameFormat = "'v'VVV";
+                setup.SubstituteApiVersionInUrl = true;
             });
 
             services.AddSwaggerGen();
@@ -92,7 +102,7 @@ namespace Fiap.Api.AspNet
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -101,10 +111,22 @@ namespace Fiap.Api.AspNet
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Fiap Api Asp.Net");
+            //    c.RoutePrefix = string.Empty;
+            //});
+
+            app.UseSwaggerUI(options =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fiap Api Asp.Net");
-                c.RoutePrefix = string.Empty;
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint(
+                    $"/swagger/{description.GroupName}/swagger.json",
+                    description.GroupName.ToUpperInvariant());
+                }
+
+                options.DocExpansion(DocExpansion.List);
             });
 
             app.UseHttpsRedirection();
